@@ -1,62 +1,57 @@
 package screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import base.BaseScreen;
+import math.Rectangle;
+import sprite.Background;
+import sprite.HKhead;
 
 public class MenuScreen extends BaseScreen {
-    private Texture img;
-    private TextureRegion region;
-    private Vector2 pos;
-    private Vector2 distance;
-    private Vector2 speed;
+    private Texture bg,img;
+    private Background background;
+    private HKhead head;
 
     @Override
     public void show() {
         super.show();
+        bg = new Texture("planet.jpeg");
         img = new Texture("HK.png");
-        region = new TextureRegion(img,0,0,256,256);
-        distance = new Vector2();
-        speed = new Vector2();
-        pos = new Vector2(50,50);
-
-
-
+        background = new Background(bg);
+        head = new HKhead(img);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         ScreenUtils.clear(0.27f, 0.709f, 0.737f, 1);
-        move();
         batch.begin();
-        batch.draw(region, pos.x, pos.y,126,126);
+        background.draw(batch);
+        head.draw(batch);
         batch.end();
+    }
+
+
+    @Override
+    public void resize(Rectangle worldBounds) {
+        super.resize(worldBounds);
+        background.resize(worldBounds);
+        head.resize(worldBounds);
     }
 
     @Override
     public void dispose() {
         super.dispose();
         img.dispose();
+        bg.dispose();
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        float inversY = Gdx.graphics.getHeight() - screenY;
-        distance = new Vector2(screenX,inversY);
-        speed.set(distance.cpy().sub(pos).setLength(1));
-        return super.touchUp(screenX, screenY, pointer, button);
-
-    }
-
-    private void move() {
-        pos.add(speed);
-        if (distance.cpy().sub(pos).len()<1){
-            speed.set(0,0);
-        }
+    public boolean touchUp(Vector2 touch, int pointer, int button) {
+        head.touchUp(touch,pointer,button);
+        return false;
     }
 }
