@@ -60,16 +60,8 @@ public class Rectangle {
                 getTop() > other.getBottom();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public String toString() {
+        return "x: "+position.x+" y: "+position.y+" width: "+getWidth()+" height: "+getHeight();
+    }
 }

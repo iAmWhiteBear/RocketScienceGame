@@ -16,7 +16,6 @@ public class HKhead extends Sprite {
 
     public HKhead(Texture texture) {
         super(new TextureRegion(texture));
-        this.scale = 0.3f;
         distance = new Vector2();
         delta = new Vector2();
         speed = new Vector2();
@@ -31,8 +30,8 @@ public class HKhead extends Sprite {
     @Override
     public void resize(Rectangle worldBounds) {
         super.resize(worldBounds);
-        setHeightProportion(0.5f);
-        this.position.set(worldBounds.position);
+        setHeightProportion(0.15f);
+        this.position.set(new Vector2(0f,-0.5f+this.halfHeight));
     }
 
     @Override
