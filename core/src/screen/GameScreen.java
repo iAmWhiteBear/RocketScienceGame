@@ -2,11 +2,14 @@ package screen;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import base.BaseScreen;
 import math.Rectangle;
 import sprite.Background;
+import sprite.ShipPlayer;
 import sprite.Star;
 
 public class GameScreen extends BaseScreen {
@@ -18,6 +21,9 @@ public class GameScreen extends BaseScreen {
     private Background background;
     private Star[] stars;
 
+    private ShipPlayer shipPlayer;
+
+
     @Override
     public void show() {
         super.show();
@@ -28,6 +34,8 @@ public class GameScreen extends BaseScreen {
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(atlas);
         }
+
+        shipPlayer = new ShipPlayer( atlas.findRegion("main_ship"));
     }
 
     @Override
@@ -41,6 +49,7 @@ public class GameScreen extends BaseScreen {
         for (Star s:stars) {
             s.update(delta);
         }
+        shipPlayer.update(delta);
     }
 
     public void draw(){
@@ -50,6 +59,7 @@ public class GameScreen extends BaseScreen {
         for (Star s:stars) {
             s.draw(batch);
         }
+        shipPlayer.draw(batch);
         batch.end();
 
     }
@@ -61,6 +71,7 @@ public class GameScreen extends BaseScreen {
         for (Star s:stars) {
             s.resize(worldBounds);
         }
+        shipPlayer.resize(worldBounds);
     }
 
     @Override
@@ -68,5 +79,17 @@ public class GameScreen extends BaseScreen {
         super.dispose();
         atlas.dispose();
         bg.dispose();
+    }
+
+    @Override
+    public boolean touchDown(Vector2 touch, int pointer, int button) {
+        shipPlayer.touchDown(touch,pointer,button);
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(Vector2 touch, int pointer) {
+        shipPlayer.touchDragged(touch,pointer);
+        return false;
     }
 }
