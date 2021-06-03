@@ -92,4 +92,11 @@ public class GameScreen extends BaseScreen {
         shipPlayer.touchDragged(touch,pointer);
         return false;
     }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        shipPlayer.keyDown(keycode);
+        return false;
+    }
+
 }

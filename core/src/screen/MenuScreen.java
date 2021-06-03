@@ -60,7 +60,6 @@ public class MenuScreen extends BaseScreen {
         }
         exitBtn.resize(worldBounds);
         playBtn.resize(worldBounds);
-
     }
 
     public void draw(){

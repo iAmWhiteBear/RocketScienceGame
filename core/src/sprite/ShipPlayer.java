@@ -17,6 +17,7 @@ public class ShipPlayer extends Sprite {
     private Vector2 distance = new Vector2();
     private Vector2 nextLocation = new Vector2();
 
+
     private final TextureRegion normalShip;
     private final TextureRegion damagedShip;
 
@@ -60,12 +61,25 @@ public class ShipPlayer extends Sprite {
         return false;
     }
 
+    public void keyDown(int keycode){
+        switch (keycode){
+            case 19: calculateMoveTo(nextLocation.set(position.x, getTop()+speed.y)); break;
+            case 20: calculateMoveTo(nextLocation.set(position.x, getBottom()-speed.y)); break;
+            case 21: calculateMoveTo(nextLocation.set(getLeft()-speed.x,position.y)); break;
+            case 22: calculateMoveTo(nextLocation.set(getRight()+speed.x,position.y)); break;
+        }
+    }
+
 
 
     private void calculateMoveTo(Vector2 touch){
         nextLocation.set(touch);
         nextLocation.y = (worldBounds.getBottom()+getHalfHeight())*marginBot;
+        if (nextLocation.x > worldBounds.getRight()) nextLocation.x = worldBounds.getRight();
+        if (nextLocation.x < worldBounds.getLeft()) nextLocation.x = worldBounds.getLeft();
         distance.set(nextLocation);
         speed.set(distance.sub(position).setLength(SPEED_MOD));
     }
+
+
 }
