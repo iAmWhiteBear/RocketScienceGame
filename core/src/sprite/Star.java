@@ -39,7 +39,6 @@ public class Star extends Sprite {
             setRight(worldBounds.getLeft());}
         if (getRight() < worldBounds.getLeft()) {
             setLeft(worldBounds.getRight());}
-        System.out.println(position.x);
         super.update(deltaTime);
     }
 

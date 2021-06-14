@@ -1,6 +1,8 @@
 package screen;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -22,6 +24,7 @@ public class MenuScreen extends BaseScreen {
     private Star[] stars;
     private ButtonExit exitBtn;
     private ButtonPlay playBtn;
+    private Sound ambient;
 
     public MenuScreen(Game game) {
         this.game = game;
@@ -32,6 +35,7 @@ public class MenuScreen extends BaseScreen {
         super.show();
         bg = new Texture("textures/bg.png");
         atlas = new TextureAtlas("textures/menuAtlas.tpack");
+        ambient = Gdx.audio.newSound(Gdx.files.internal("sound/Drone_Pulsating.mp3"));
         background = new Background(bg);
         stars = new Star[MENU_STARS];
         for (int i = 0; i < stars.length; i++) {
@@ -39,6 +43,10 @@ public class MenuScreen extends BaseScreen {
         }
         exitBtn = new ButtonExit(atlas);
         playBtn = new ButtonPlay(atlas,game);
+        //sound
+        long id = ambient.play();
+        ambient.setLooping(id,true);
+
 
 
     }
@@ -60,7 +68,6 @@ public class MenuScreen extends BaseScreen {
         }
         exitBtn.resize(worldBounds);
         playBtn.resize(worldBounds);
-
     }
 
     public void draw(){
@@ -82,7 +89,6 @@ public class MenuScreen extends BaseScreen {
         super.dispose();
         bg.dispose();
         atlas.dispose();
-
     }
 
     @Override

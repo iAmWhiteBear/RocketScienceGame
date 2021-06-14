@@ -8,7 +8,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import base.BaseScreen;
 import math.Rectangle;
+import pool.BulletPool;
 import sprite.Background;
+import sprite.Bullet;
 import sprite.ShipPlayer;
 import sprite.Star;
 
@@ -21,6 +23,7 @@ public class GameScreen extends BaseScreen {
     private Background background;
     private Star[] stars;
 
+    private BulletPool bulletPool;
     private ShipPlayer shipPlayer;
 
 
@@ -35,13 +38,15 @@ public class GameScreen extends BaseScreen {
             stars[i] = new Star(atlas);
         }
 
-        shipPlayer = new ShipPlayer( atlas.findRegion("main_ship"));
+        bulletPool = new BulletPool();
+        shipPlayer = new ShipPlayer(atlas,bulletPool);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         update(delta);
+        freeAllDestroyed();
         draw();
     }
 
@@ -50,6 +55,7 @@ public class GameScreen extends BaseScreen {
             s.update(delta);
         }
         shipPlayer.update(delta);
+        bulletPool.updateActiveSprites(delta);
     }
 
     public void draw(){
@@ -60,8 +66,8 @@ public class GameScreen extends BaseScreen {
             s.draw(batch);
         }
         shipPlayer.draw(batch);
+        bulletPool.drawActiveSprites(batch);
         batch.end();
-
     }
 
     @Override
@@ -79,6 +85,11 @@ public class GameScreen extends BaseScreen {
         super.dispose();
         atlas.dispose();
         bg.dispose();
+        bulletPool.dispose();
+    }
+
+    private void freeAllDestroyed(){
+        bulletPool.freeAllDestroyed();
     }
 
     @Override
@@ -90,6 +101,12 @@ public class GameScreen extends BaseScreen {
     @Override
     public boolean touchDragged(Vector2 touch, int pointer) {
         shipPlayer.touchDragged(touch,pointer);
+        return false;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        shipPlayer.keyDown(keycode);
         return false;
     }
 }
