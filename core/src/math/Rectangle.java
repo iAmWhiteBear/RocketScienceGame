@@ -56,8 +56,8 @@ public class Rectangle {
     public boolean isOutside(Rectangle other) {
         return getLeft() > other.getRight() ||
                 getRight() < other.getLeft() ||
-                getBottom()> other.getTop() ||
-                getTop() > other.getBottom();
+                getBottom() > other.getTop() ||
+                getTop() < other.getBottom();
     }
 
     @Override
